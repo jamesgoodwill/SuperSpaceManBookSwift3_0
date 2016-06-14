@@ -1,6 +1,6 @@
 import SpriteKit
 
-class GameScene: SKScene, SKPhysicsContactDelegate {
+class GameScene: SKScene {
     
     let backgroundNode = SKSpriteNode(imageNamed: "Background")
     let playerNode = SKSpriteNode(imageNamed: "Player")
@@ -59,7 +59,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         playerNode.physicsBody?.applyImpulse(CGVector(dx: 0.0, dy: 40.0))
     }
+}
 
+extension GameScene: SKPhysicsContactDelegate {
+    
     func didBegin(_ contact: SKPhysicsContact) {
         
         let nodeB = contact.bodyB.node
@@ -68,6 +71,5 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             nodeB?.removeFromParent()
         }
-        
     }
 }
