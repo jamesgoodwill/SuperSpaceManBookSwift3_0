@@ -118,6 +118,8 @@
 				TargetAttributes = {
 					317150E61A58BBC500FEEC9E = {
 						CreatedOnToolsVersion = 6.1.1;
+						DevelopmentTeam = AAA873G97B;
+						DevelopmentTeamName = "Wesley Matlock";
 						LastSwiftMigration = 0800;
 					};
 				};
