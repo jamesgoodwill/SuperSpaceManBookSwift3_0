@@ -14,7 +14,7 @@ class GameScene: SKScene {
         
         super.init(size: size)
         
-        print("SIZE: \(size)")
+        print("The size is: \(size)")
         backgroundColor = SKColor(red: 0.0, green: 0.0, blue: 0.0, alpha: 1.0)
         
         // adding the background
