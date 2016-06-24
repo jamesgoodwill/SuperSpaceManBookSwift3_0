@@ -263,10 +263,10 @@ extension GameScene: SKPhysicsContactDelegate {
             run(orbPopAction)
             
             impulseCount += 1
-            impulseTextNode.text = "IMPULSES : \(self.impulseCount)"
+            impulseTextNode.text = "IMPULSES : \(impulseCount)"
             
             score += 1
-            scoreTextNode.text = "SCORE : \(self.score)"
+            scoreTextNode.text = "SCORE : \(score)"
             
             nodeB.removeFromParent()
         }

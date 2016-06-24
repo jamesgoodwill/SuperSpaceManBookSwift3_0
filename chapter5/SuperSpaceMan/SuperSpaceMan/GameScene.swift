@@ -93,10 +93,10 @@ class GameScene: SKScene {
             orbNodePosition.y += 120
             orbNode.position = orbNodePosition
             orbNode.physicsBody = SKPhysicsBody(circleOfRadius: orbNode.size.width / 2)
-            orbNode.physicsBody!.isDynamic = false
+            orbNode.physicsBody?.isDynamic = false
             
-            orbNode.physicsBody!.categoryBitMask = CollisionCategoryPowerUpOrbs
-            orbNode.physicsBody!.collisionBitMask = 0
+            orbNode.physicsBody?.categoryBitMask = CollisionCategoryPowerUpOrbs
+            orbNode.physicsBody?.collisionBitMask = 0
             orbNode.name = "POWER_UP_ORB"
             
             foregroundNode.addChild(orbNode)
@@ -115,8 +115,7 @@ class GameScene: SKScene {
         
         let blackHoleTextures = [frame0, frame1, frame2, frame3, frame4]
         
-        let animateAction =
-            SKAction.animate(with: blackHoleTextures, timePerFrame: 0.2)
+        let animateAction = SKAction.animate(with: blackHoleTextures, timePerFrame: 0.2)
         let rotateAction = SKAction.repeatForever(animateAction)
         
         let moveLeftAction = SKAction.moveTo(x: 0.0, duration: 2.0)
@@ -130,9 +129,9 @@ class GameScene: SKScene {
             
             blackHoleNode.position = CGPoint(x: size.width - 80.0, y: 600.0 * CGFloat(i))
             blackHoleNode.physicsBody = SKPhysicsBody(circleOfRadius: blackHoleNode.size.width / 2)
-            blackHoleNode.physicsBody!.isDynamic = false
-            blackHoleNode.physicsBody!.categoryBitMask = CollisionCategoryBlackHoles
-            blackHoleNode.physicsBody!.collisionBitMask = 0
+            blackHoleNode.physicsBody?.isDynamic = false
+            blackHoleNode.physicsBody?.categoryBitMask = CollisionCategoryBlackHoles
+            blackHoleNode.physicsBody?.collisionBitMask = 0
             blackHoleNode.name = "BLACK_HOLE"
             
             blackHoleNode.run(moveAction)
@@ -176,11 +175,8 @@ class GameScene: SKScene {
         if playerNode.position.y >= 180.0 {
             
             backgroundNode.position = CGPoint(x: backgroundNode.position.x, y: -((playerNode.position.y - 180.0)/8));
-            
             backgroundStarsNode.position = CGPoint(x: backgroundStarsNode.position.x, y: -((playerNode.position.y - 180.0)/6));
-            
             backgroundPlanetNode.position = CGPoint(x: backgroundPlanetNode.position.x, y: -((playerNode.position.y - 180.0)/8));
-            
             foregroundNode.position = CGPoint(x: foregroundNode.position.x, y: -(playerNode.position.y - 180.0));
         }
     }
@@ -226,3 +222,6 @@ extension GameScene: SKPhysicsContactDelegate {
         }
     }
 }
+
+
+
