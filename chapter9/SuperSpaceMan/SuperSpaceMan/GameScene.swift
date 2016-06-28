@@ -163,6 +163,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         if !playerNode!.physicsBody!.isDynamic {
             
+            startGameTextNode.removeFromParent()
+            
             playerNode!.physicsBody!.isDynamic = true
             
             coreMotionManager.accelerometerUpdateInterval = 0.3

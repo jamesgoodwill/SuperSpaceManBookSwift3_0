@@ -74,9 +74,9 @@ class GameScene: SKScene {
         let engineExhaustPath = Bundle.main().pathForResource("EngineExhaust", ofType: "sks")
         engineExhaust = NSKeyedUnarchiver.unarchiveObject(withFile: engineExhaustPath!) as? SKEmitterNode
         engineExhaust?.position = CGPoint(x: 0.0, y: -(playerNode.size.height / 2))
-        engineExhaust?.isHidden = true
         
         playerNode.addChild(engineExhaust!)
+        engineExhaust?.isHidden = true
     }
     
     func addOrbsToForeground() {

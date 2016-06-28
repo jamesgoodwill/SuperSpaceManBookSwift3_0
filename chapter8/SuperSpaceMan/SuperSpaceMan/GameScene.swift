@@ -195,6 +195,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         if !playerNode!.physicsBody!.isDynamic {
             
+            startGameTextNode.removeFromParent()
+            
             playerNode!.physicsBody!.isDynamic = true
             
             coreMotionManager.accelerometerUpdateInterval = 0.3
@@ -291,19 +293,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
-    func gameOverWithResult(_ gameResult: Bool) {
-        
-        playerNode!.removeFromParent()
-        playerNode = nil
-        
-        let transition = SKTransition.crossFade(withDuration: 2.0)
-        let menuScene = MenuScene(size: size,
-            gameResult: gameResult,
-            score: score)
-        
-        view?.presentScene(menuScene, transition: transition)
-    }
-    
     override func didSimulatePhysics() {
         
         if playerNode != nil {
@@ -336,5 +325,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             engineExhaust!.isHidden = true
         }
+    }
+    
+    func gameOverWithResult(_ gameResult: Bool) {
+        
+        playerNode!.removeFromParent()
+        playerNode = nil
+        
+        let transition = SKTransition.crossFade(withDuration: 2.0)
+        let menuScene = MenuScene(size: size,
+                                  gameResult: gameResult,
+                                  score: score)
+        
+        view?.presentScene(menuScene, transition: transition)
     }
 }

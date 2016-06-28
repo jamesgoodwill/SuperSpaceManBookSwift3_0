@@ -43,7 +43,7 @@ class GameScene: SKScene {
         playerNode.position = CGPoint(x: size.width / 2.0, y: 80.0)
         
         playerNode.physicsBody = SKPhysicsBody(circleOfRadius: playerNode.size.width / 2)
-        playerNode.physicsBody?.isDynamic = true
+        playerNode.physicsBody?.isDynamic = false
         
         playerNode.position = CGPoint(x: size.width / 2.0, y: 80.0)
         playerNode.physicsBody?.linearDamping = 1.0
@@ -144,7 +144,7 @@ class GameScene: SKScene {
     
     deinit {
         
-        self.coreMotionManager.stopAccelerometerUpdates()
+        coreMotionManager.stopAccelerometerUpdates()
     }
 }
 
