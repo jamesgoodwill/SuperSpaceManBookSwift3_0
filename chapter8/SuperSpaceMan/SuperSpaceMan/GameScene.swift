@@ -1,13 +1,13 @@
 import SpriteKit
 import CoreMotion
 
-class GameScene: SKScene, SKPhysicsContactDelegate {
+class GameScene: SKScene {
     
-    var backgroundNode : SKSpriteNode?
-    var backgroundStarsNode  : SKSpriteNode?
-    var backgroundPlanetNode : SKSpriteNode?
-    var foregroundNode  : SKSpriteNode?
-    var playerNode : SKSpriteNode?
+    let backgroundNode = SKSpriteNode(imageNamed: "Background")
+    let backgroundStarsNode = SKSpriteNode(imageNamed: "Stars")
+    let backgroundPlanetNode = SKSpriteNode(imageNamed: "PlanetStart")
+    let foregroundNode = SKSpriteNode()
+    var playerNode = SKSpriteNode(imageNamed: "Player")
     
     var impulseCount = 4
     let coreMotionManager = CMMotionManager()
@@ -16,7 +16,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let CollisionCategoryPlayer     : UInt32 = 0x1 << 1
     let CollisionCategoryPowerUpOrbs : UInt32 = 0x1 << 2
     let CollisionCategoryBlackHoles : UInt32 = 0x1 << 3
-
+    
     var engineExhaust : SKEmitterNode?
     
     var score = 0
@@ -45,58 +45,51 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         isUserInteractionEnabled = true
         
         // adding the background
-        backgroundNode = SKSpriteNode(imageNamed: "Background")
-        backgroundNode!.size.width = self.frame.size.width
-        backgroundNode!.anchorPoint = CGPoint(x: 0.5, y: 0.0)
-        backgroundNode!.position = CGPoint(x: size.width / 2.0, y: 0.0)
-        addChild(backgroundNode!)
+        backgroundNode.size.width = frame.size.width
+        backgroundNode.anchorPoint = CGPoint(x: 0.5, y: 0.0)
+        backgroundNode.position = CGPoint(x: size.width / 2.0, y: 0.0)
         
-        backgroundStarsNode = SKSpriteNode(imageNamed: "Stars")
-        backgroundStarsNode!.size.width = self.frame.size.width
-        backgroundStarsNode!.anchorPoint = CGPoint(x: 0.5, y: 0.0)
-        backgroundStarsNode!.position = CGPoint(x: size.width / 2.0, y: 0.0)
-        addChild(backgroundStarsNode!)
+        addChild(backgroundNode)
         
-        backgroundPlanetNode = SKSpriteNode(imageNamed: "PlanetStart")
-        backgroundPlanetNode!.size.width = self.frame.size.width
-        backgroundPlanetNode!.anchorPoint = CGPoint(x: 0.5, y: 0.0)
-        backgroundPlanetNode!.position = CGPoint(x: size.width / 2.0, y: 0.0)
-        addChild(backgroundPlanetNode!)
+        backgroundStarsNode.size.width = self.frame.size.width
+        backgroundStarsNode.anchorPoint = CGPoint(x: 0.5, y: 0.0)
+        backgroundStarsNode.position = CGPoint(x: size.width / 2.0, y: 0.0)
+        addChild(backgroundStarsNode)
         
-        foregroundNode = SKSpriteNode()
-        addChild(foregroundNode!)
+        backgroundPlanetNode.size.width = self.frame.size.width
+        backgroundPlanetNode.anchorPoint = CGPoint(x: 0.5, y: 0.0)
+        backgroundPlanetNode.position = CGPoint(x: size.width / 2.0, y: 0.0)
+        addChild(backgroundPlanetNode)
         
+        addChild(foregroundNode)
+
         // add the player
-        playerNode = SKSpriteNode(imageNamed: "Player")
+        playerNode.physicsBody = SKPhysicsBody(circleOfRadius: playerNode.size.width / 2)
+        playerNode.physicsBody?.isDynamic = false
         
-        playerNode!.physicsBody =
-            SKPhysicsBody(circleOfRadius: playerNode!.size.width / 2)
-        playerNode!.physicsBody!.isDynamic = false
+        playerNode.position = CGPoint(x: size.width / 2.0, y: 220.0)
+        playerNode.physicsBody?.linearDamping = 1.0
+        playerNode.physicsBody?.allowsRotation = false
+        playerNode.physicsBody?.categoryBitMask = CollisionCategoryPlayer
+        playerNode.physicsBody?.contactTestBitMask = CollisionCategoryPowerUpOrbs | CollisionCategoryBlackHoles
+        playerNode.physicsBody?.collisionBitMask = 0
         
-        playerNode!.position = CGPoint(x: size.width / 2.0, y: 220.0)
-        playerNode!.physicsBody!.linearDamping = 1.0
-        playerNode!.physicsBody!.allowsRotation = false
-        playerNode!.physicsBody!.categoryBitMask = CollisionCategoryPlayer
-        playerNode!.physicsBody!.contactTestBitMask =
-            CollisionCategoryPowerUpOrbs | CollisionCategoryBlackHoles
-        playerNode!.physicsBody!.collisionBitMask = 0
-        
-        foregroundNode!.addChild(playerNode!)
+        foregroundNode.addChild(playerNode)
         
         addBlackHolesToForeground()
         addOrbsToForeground()
         
         let engineExhaustPath = Bundle.main().pathForResource("EngineExhaust", ofType: "sks")
-        engineExhaust = NSKeyedUnarchiver.unarchiveObject(withFile: engineExhaustPath!) as? SKEmitterNode;
-        engineExhaust!.position = CGPoint(x: 0.0, y: -(playerNode!.size.height / 2));
-        playerNode!.addChild(engineExhaust!)
-        engineExhaust!.isHidden = true;
+        engineExhaust = NSKeyedUnarchiver.unarchiveObject(withFile: engineExhaustPath!) as? SKEmitterNode
+        engineExhaust?.position = CGPoint(x: 0.0, y: -(playerNode.size.height / 2))
+        engineExhaust?.isHidden = true
+        
+        playerNode.addChild(engineExhaust!)
         
         scoreTextNode.text = "SCORE : \(score)"
         scoreTextNode.fontSize = 20
         scoreTextNode.fontColor = SKColor.white()
-        scoreTextNode.position =
-            CGPoint(x: size.width - 10, y: size.height - 20)
+        scoreTextNode.position = CGPoint(x: size.width - 10, y: size.height - 20)
         scoreTextNode.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.right
         
         addChild(scoreTextNode)
@@ -114,14 +107,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         startGameTextNode.verticalAlignmentMode = SKLabelVerticalAlignmentMode.center
         startGameTextNode.fontSize = 20
         startGameTextNode.fontColor = SKColor.white()
-        startGameTextNode.position =
-            CGPoint(x: scene!.size.width / 2, y: scene!.size.height / 2)
+        startGameTextNode.position = CGPoint(x: scene!.size.width / 2, y: scene!.size.height / 2)
         addChild(startGameTextNode)
     }
     
     func addOrbsToForeground() {
         
-        var orbNodePosition = CGPoint(x: playerNode!.position.x, y: playerNode!.position.y + 100)
+        var orbNodePosition = CGPoint(x: playerNode.position.x, y: playerNode.position.y + 100)
         var orbXShift : CGFloat = -1.0
         
         for _ in 1...50 {
@@ -148,7 +140,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             orbNode.physicsBody!.collisionBitMask = 0
             orbNode.name = "POWER_UP_ORB"
             
-            foregroundNode!.addChild(orbNode)
+            foregroundNode.addChild(orbNode)
         }
     }
     
@@ -187,17 +179,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             blackHoleNode.run(moveAction)
             blackHoleNode.run(rotateAction)
             
-            foregroundNode!.addChild(blackHoleNode)
+            foregroundNode.addChild(blackHoleNode)
         }
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         
-        if !playerNode!.physicsBody!.isDynamic {
-            
+        if !playerNode.physicsBody!.isDynamic {
+
             startGameTextNode.removeFromParent()
-            
-            playerNode!.physicsBody!.isDynamic = true
+
+            playerNode.physicsBody!.isDynamic = true
             
             coreMotionManager.accelerometerUpdateInterval = 0.3
             coreMotionManager.startAccelerometerUpdates(to: OperationQueue(), withHandler: {
@@ -217,7 +209,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         if impulseCount > 0 {
             
-            playerNode!.physicsBody!.applyImpulse(CGVector(dx: 0.0, dy: 40.0))
+            playerNode.physicsBody!.applyImpulse(CGVector(dx: 0.0, dy: 40.0))
             
             impulseCount -= 1
             impulseTextNode.text = "IMPULSES : \(impulseCount)"
@@ -231,92 +223,55 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                                  repeats: false)
         }
     }
-
-    func didBegin(_ contact: SKPhysicsContact) {
-        
-        let nodeB = contact.bodyB.node!
-        
-        if nodeB.name == "POWER_UP_ORB"  {
-            
-            self.run(orbPopAction)
-            
-            self.impulseCount += 1
-            self.impulseTextNode.text = "IMPULSES : \(self.impulseCount)"
-            
-            self.score += 1
-            self.scoreTextNode.text = "SCORE : \(self.score)"
-            
-            nodeB.removeFromParent()
-        }
-        else if nodeB.name == "BLACK_HOLE"  {
-            
-            playerNode!.physicsBody!.contactTestBitMask = 0
-            impulseCount = 0
-            
-            let colorizeAction = SKAction.colorize(with: UIColor.red(),
-                colorBlendFactor: 1.0, duration: 1)
-            playerNode!.run(colorizeAction)
-        }
-    }
     
     override func update(_ currentTime: TimeInterval) {
         
-        if playerNode != nil {
+        if playerNode.position.y >= 180.0 {
             
-            if playerNode!.position.y >= 180.0
-                && playerNode!.position.y < 6400.0 {
-                    
-                backgroundNode!.position =
-                    CGPoint(x: self.backgroundNode!.position.x,
-                        y: -((playerNode!.position.y - 180.0)/8));
-                    
-                backgroundStarsNode!.position =
-                    CGPoint(x: self.backgroundStarsNode!.position.x,
-                        y: -((playerNode!.position.y - 180.0)/6));
-                    
-                backgroundPlanetNode!.position =
-                    CGPoint(x: backgroundPlanetNode!.position.x,
-                        y: -((playerNode!.position.y - 180.0)/8));
-                    
-                foregroundNode!.position =
-                    CGPoint(x: self.foregroundNode!.position.x,
-                        y: -(playerNode!.position.y - 180.0));
-            }
-            else if playerNode!.position.y > 7000.0 {
-                
-                gameOverWithResult(true)
-            }
-            else if playerNode!.position.y + playerNode!.size.height < 0.0 {
-                
-                gameOverWithResult(false)
-            }
+            backgroundNode.position =
+                CGPoint(x: backgroundNode.position.x,
+                        y: -((playerNode.position.y - 180.0)/8));
+            
+            backgroundStarsNode.position =
+                CGPoint(x: backgroundStarsNode.position.x,
+                        y: -((playerNode.position.y - 180.0)/6));
+            
+            backgroundPlanetNode.position =
+                CGPoint(x: backgroundPlanetNode.position.x,
+                        y: -((playerNode.position.y - 180.0)/8));
+            
+            foregroundNode.position =
+                CGPoint(x: foregroundNode.position.x,
+                        y: -(playerNode.position.y - 180.0));
+        }
+        else if playerNode.position.y > 7000.0 {
+            
+            gameOverWithResult(true)
+        }
+        else if playerNode.position.y + playerNode.size.height < 0.0 {
+            
+            gameOverWithResult(false)
         }
     }
     
     override func didSimulatePhysics() {
         
-        if playerNode != nil {
-            
-            playerNode!.physicsBody!.velocity =
-                CGVector(dx: xAxisAcceleration * 380.0,
-                    dy: playerNode!.physicsBody!.velocity.dy)
-            
-            if playerNode!.position.x < -(playerNode!.size.width / 2) {
-                
-                playerNode!.position = CGPoint(x: size.width - playerNode!.size.width / 2, y: playerNode!.position.y)
-            }
-            else if playerNode!.position.x > size.width {
-                
-                playerNode!.position =
-                    CGPoint(x: playerNode!.size.width / 2,
-                        y: playerNode!.position.y)
-            }
-        }
-    }
-    
-    deinit {
+        playerNode.physicsBody!.velocity =
+            CGVector(dx: xAxisAcceleration * 380.0,
+                     dy: playerNode.physicsBody!.velocity.dy)
         
-        self.coreMotionManager.stopAccelerometerUpdates()
+        if playerNode.position.x < -(playerNode.size.width / 2) {
+            
+            playerNode.position =
+                CGPoint(x: size.width - playerNode.size.width / 2,
+                        y: playerNode.position.y);
+        }
+        else if playerNode.position.x > size.width {
+            
+            playerNode.position =
+                CGPoint(x: playerNode.size.width / 2,
+                        y: playerNode.position.y);
+        }
     }
     
     func hideEngineExaust(_ timer:Timer!) {
@@ -327,10 +282,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
+    deinit {
+        
+        self.coreMotionManager.stopAccelerometerUpdates()
+    }
+    
     func gameOverWithResult(_ gameResult: Bool) {
         
-        playerNode!.removeFromParent()
-        playerNode = nil
+        playerNode.removeFromParent()
         
         let transition = SKTransition.crossFade(withDuration: 2.0)
         let menuScene = MenuScene(size: size,
@@ -338,5 +297,34 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                                   score: score)
         
         view?.presentScene(menuScene, transition: transition)
+    }
+}
+
+extension GameScene: SKPhysicsContactDelegate {
+    
+    func didBegin(_ contact: SKPhysicsContact) {
+        
+        let nodeB = contact.bodyB.node!
+        
+        if nodeB.name == "POWER_UP_ORB"  {
+            
+            run(orbPopAction)
+            
+            impulseCount += 1
+            impulseTextNode.text = "IMPULSES : \(self.impulseCount)"
+            
+            score += 1
+            scoreTextNode.text = "SCORE : \(self.score)"
+            
+            nodeB.removeFromParent()
+        }
+        else if nodeB.name == "BLACK_HOLE"  {
+            
+            playerNode.physicsBody?.contactTestBitMask = 0
+            impulseCount = 0
+            
+            let colorizeAction = SKAction.colorize(with: UIColor.red(), colorBlendFactor: 1.0, duration: 1)
+            playerNode.run(colorizeAction)
+        }
     }
 }

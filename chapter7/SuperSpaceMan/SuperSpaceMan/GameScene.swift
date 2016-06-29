@@ -48,7 +48,6 @@ class GameScene: SKScene {
         backgroundNode.position = CGPoint(x: size.width / 2.0, y: 0.0)
         
         addChild(backgroundNode)
-        addChild(foregroundNode)
         
         backgroundStarsNode.size.width = self.frame.size.width
         backgroundStarsNode.anchorPoint = CGPoint(x: 0.5, y: 0.0)
@@ -60,7 +59,8 @@ class GameScene: SKScene {
         backgroundPlanetNode.position = CGPoint(x: size.width / 2.0, y: 0.0)
         addChild(backgroundPlanetNode)
         
-        
+        addChild(foregroundNode)
+
         // add the player
         playerNode.physicsBody = SKPhysicsBody(circleOfRadius: playerNode.size.width / 2)
         playerNode.physicsBody?.isDynamic = false
@@ -263,10 +263,10 @@ extension GameScene: SKPhysicsContactDelegate {
             run(orbPopAction)
             
             impulseCount += 1
-            impulseTextNode.text = "IMPULSES : \(self.impulseCount)"
+            impulseTextNode.text = "IMPULSES : \(impulseCount)"
             
             score += 1
-            scoreTextNode.text = "SCORE : \(self.score)"
+            scoreTextNode.text = "SCORE : \(score)"
             
             nodeB.removeFromParent()
         }
