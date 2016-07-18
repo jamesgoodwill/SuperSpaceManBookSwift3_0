@@ -70,8 +70,8 @@ class GameScene: SKScene {
         
         addBlackHolesToForeground()
         addOrbsToForeground()
-        
-        let engineExhaustPath = Bundle.main().pathForResource("EngineExhaust", ofType: "sks")
+
+        let engineExhaustPath = Bundle.main.pathForResource("EngineExhaust", ofType: "sks")
         engineExhaust = NSKeyedUnarchiver.unarchiveObject(withFile: engineExhaustPath!) as? SKEmitterNode
         engineExhaust?.position = CGPoint(x: 0.0, y: -(playerNode.size.height / 2))
         
