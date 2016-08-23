@@ -31,7 +31,7 @@ class GameViewController: UIViewController {
     func createMainScene() -> SCNScene {
         
         let mainScene = SCNScene(named: "art.scnassets/hero.dae")
-        mainScene!.rootNode.addChildNode(createFloorNode())
+        mainScene?.rootNode.addChildNode(createFloorNode())
         return mainScene!
     }
     

@@ -60,12 +60,12 @@
 			children = (
 				6205F4471D426991002BBCFF /* AppDelegate.swift */,
 				6205F4491D426991002BBCFF /* art.scnassets */,
-				6205F44B1D426991002BBCFF /* GameViewController.swift */,
-				6205F44D1D426991002BBCFF /* Main.storyboard */,
 				6205F4501D426991002BBCFF /* Assets.xcassets */,
-				6205F4521D426991002BBCFF /* LaunchScreen.storyboard */,
-				6205F4551D426991002BBCFF /* Info.plist */,
 				6214D5B61D58CC2900982B2B /* Collectable.swift */,
+				6205F44B1D426991002BBCFF /* GameViewController.swift */,
+				6205F4551D426991002BBCFF /* Info.plist */,
+				6205F4521D426991002BBCFF /* LaunchScreen.storyboard */,
+				6205F44D1D426991002BBCFF /* Main.storyboard */,
 			);
 			path = Swifystein3D;
 			sourceTree = "<group>";

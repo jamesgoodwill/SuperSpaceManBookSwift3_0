@@ -13,14 +13,14 @@ class Collectable {
     class func pyramidNode() -> SCNNode {
         
         // 1 Creating the SCNGeometry type
-        let pyramid = SCNPyramid(width: 1.0, height: 2.0, length: 1.0)
+        let pyramid = SCNPyramid(width: 3.0, height: 6.0, length: 3.0)
         
         // 2 Create the node using the geometry type
         let pyramidNode = SCNNode(geometry: pyramid)
         pyramidNode.name = "pyramid"
         
         //3 Setting the node position
-        let position = SCNVector3Make(30, 0, -40)
+        let position = SCNVector3Make(0, 0, 200)
         pyramidNode.position = position
         
         // 4 Giving the node some color.
@@ -33,7 +33,7 @@ class Collectable {
     class func sphereNode() -> SCNNode {
         
         // 1 Creating the SCNGeometry type
-        let sphere = SCNSphere(radius: 2.0)
+        let sphere = SCNSphere(radius: 6.0)
         
         
         // 2 Create the node using the geometry type
@@ -41,7 +41,7 @@ class Collectable {
         sphereNode.name = "sphere"
         
         //3 Setting the node position
-        let position  = SCNVector3Make(35, 2, -60)
+        let position  = SCNVector3Make(0, 6, -200)
         sphereNode.position = position
         
         // 4 Giving the node some color.
@@ -55,14 +55,14 @@ class Collectable {
     class func boxNode() -> SCNNode {
         
         // 1 Creating the SCNGeometry type
-        let box = SCNBox(width: 3, height: 3, length: 3, chamferRadius: 0)
+        let box = SCNBox(width: 6, height: 6, length: 6, chamferRadius: 0)
         
         // 2 Create the node using the geometry type
         let boxNode = SCNNode(geometry: box)
         boxNode.name = "box"
         
         //3 Setting the node position
-        let position  = SCNVector3Make(20, 1.5, -20)
+        let position  = SCNVector3Make(200, 3.0, 0)
         boxNode.position = position
         
         // 4 Giving the node some color.
@@ -76,14 +76,14 @@ class Collectable {
     class func tubeNode() -> SCNNode {
         
         // 1 Creating the SCNGeometry type
-        let tube = SCNTube(innerRadius: 1, outerRadius: 1.5, height: 2.0)
+        let tube = SCNTube(innerRadius: 8, outerRadius: 10.0, height: 10.0)
         
         // 2 Create the node using the geometry type
         let tubeNode = SCNNode(geometry: tube)
         tubeNode.name = "tube"
         
         //3 Setting the node position
-        let position  = SCNVector3Make(-10, 0.75, -75)
+        let position  = SCNVector3Make(-200, 1.5, 0)
         tubeNode.position = position
         
         // 4 Giving the node some color.
@@ -96,14 +96,14 @@ class Collectable {
     class func cylinderNode() -> SCNNode {
         
         // 1 Creating the SCNGeometry type
-        let cylinder = SCNCylinder(radius: 3, height: 8)
+        let cylinder = SCNCylinder(radius: 6, height: 16)
         
         // 2 Create the node using the geometry type
         let cylinderNode = SCNNode(geometry: cylinder)
         cylinderNode.name = "cylinder"
         
         //3 Setting the node position
-        let position = SCNVector3Make(0, 4, -25)
+        let position = SCNVector3Make(300, 8, 300)
         cylinderNode.position = position
         
         // 4 Giving the node some color.
@@ -116,14 +116,14 @@ class Collectable {
     class func torusNode() -> SCNNode {
         
         // 1 Creating the SCNGeometry type
-        let torus = SCNTorus(ringRadius: 7, pipeRadius: 2)
+        let torus = SCNTorus(ringRadius: 14, pipeRadius: 4)
         
         
         // 2 Create the node using the geometry type
         let torusNode = SCNNode(geometry: torus)
         
         //3 Setting the node position
-        let position =  SCNVector3Make(75, 1, -80)
+        let position =  SCNVector3Make(-300, 3, -300)
         torusNode.position = position
 
         // 4 Giving the node some color.

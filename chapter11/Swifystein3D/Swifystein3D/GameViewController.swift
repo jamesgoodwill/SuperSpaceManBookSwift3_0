@@ -30,16 +30,16 @@ class GameViewController: UIViewController {
 
     func createMainScene() -> SCNScene {
         
-        let mainScene = SCNScene()
-        mainScene.rootNode.addChildNode(createFloorNode())
-        mainScene.rootNode.addChildNode(Collectable.pyramidNode())
-        mainScene.rootNode.addChildNode(Collectable.sphereNode())
-        mainScene.rootNode.addChildNode(Collectable.boxNode())
-        mainScene.rootNode.addChildNode(Collectable.tubeNode())
-        mainScene.rootNode.addChildNode(Collectable.cylinderNode())
-        mainScene.rootNode.addChildNode(Collectable.torusNode())
+        let mainScene = SCNScene(named: "art.scnassets/hero.dae")
+        mainScene?.rootNode.addChildNode(createFloorNode())
+        mainScene?.rootNode.addChildNode(Collectable.pyramidNode())
+        mainScene?.rootNode.addChildNode(Collectable.sphereNode())
+        mainScene?.rootNode.addChildNode(Collectable.boxNode())
+        mainScene?.rootNode.addChildNode(Collectable.tubeNode())
+        mainScene?.rootNode.addChildNode(Collectable.cylinderNode())
+        mainScene?.rootNode.addChildNode(Collectable.torusNode())
         
-        return mainScene
+        return mainScene!
     }
     
     func createFloorNode() -> SCNNode {
