@@ -75,11 +75,14 @@ class GameViewController: UIViewController {
         let cameraNode = mainScene.rootNode.childNode(withName: "mainCamera", recursively: true)
         
         cameraNode?.camera?.zFar = 1000
-        cameraNode?.position = SCNVector3(x: 0, y: 0, z: 0)
+        cameraNode?.position = SCNVector3(x: 0, y: 0, z: -100)
         
-        cameraNode?.camera?.usesOrthographicProjection = true
-        cameraNode?.camera?.orthographicScale = 50
-        cameraNode?.eulerAngles = SCNVector3(x: 90, y: 0, z: 0) //Float(-M_PI_4*0.75))
+//        cameraNode?.camera?.usesOrthographicProjection = true
+//        cameraNode?.camera?.orthographicScale = 100
+        cameraNode?.eulerAngles = SCNVector3(x: 0, y: 90, z: 0) //Float(-M_PI_4*0.75))
+        
+        let heroNode = mainScene.rootNode.childNode(withName: "hero", recursively: true)
+        heroNode?.addChildNode(cameraNode!)
 
         mainScene.rootNode.childNode(withName: "hero", recursively: true)?.addChildNode(cameraNode!)
     }
@@ -89,11 +92,14 @@ class GameViewController: UIViewController {
         let cameraNode = SCNNode()
         cameraNode.name = "mainCamera"
         cameraNode.camera = SCNCamera()
-        cameraNode.camera?.zFar = 120
-        cameraNode.position = SCNVector3(x: 0, y: 15, z: 100)
+        cameraNode.camera?.zFar = 1000
+        cameraNode.position = SCNVector3(x: 0, y: 15, z: 10)
         cameraNode.rotation = SCNVector4(x: 0, y: 0, z: 0, w: -Float.pi/4 * 0.5) //Float(-M_PI_4*0.75))
         
-        mainScene.rootNode.addChildNode(cameraNode)
+        let heroNode = mainScene.rootNode.childNode(withName: "hero", recursively: true)
+        heroNode?.addChildNode(cameraNode)
+        
+//        mainScene.rootNode.addChildNode(cameraNode)
     }
     
 }
