@@ -11,7 +11,6 @@ class GameScene: SKScene {
     
     var impulseCount = 4
     let coreMotionManager = CMMotionManager()
-    var xAxisAcceleration : CGFloat = 0.0
     
     let CollisionCategoryPlayer     : UInt32 = 0x1 << 1
     let CollisionCategoryPowerUpOrbs : UInt32 = 0x1 << 2
@@ -77,7 +76,7 @@ class GameScene: SKScene {
         addBlackHolesToForeground()
         addOrbsToForeground()
         
-        let engineExhaustPath = Bundle.main().pathForResource("EngineExhaust", ofType: "sks")
+        let engineExhaustPath = Bundle.main.path(forResource: "EngineExhaust", ofType: "sks")
         engineExhaust = NSKeyedUnarchiver.unarchiveObject(withFile: engineExhaustPath!) as? SKEmitterNode
         engineExhaust?.position = CGPoint(x: 0.0, y: -(playerNode.size.height / 2))
         engineExhaust?.isHidden = true
@@ -86,7 +85,7 @@ class GameScene: SKScene {
         
         scoreTextNode.text = "SCORE : \(score)"
         scoreTextNode.fontSize = 20
-        scoreTextNode.fontColor = SKColor.white()
+        scoreTextNode.fontColor = SKColor.white
         scoreTextNode.position = CGPoint(x: size.width - 10, y: size.height - 20)
         scoreTextNode.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.right
         
@@ -94,7 +93,7 @@ class GameScene: SKScene {
         
         impulseTextNode.text = "IMPULSES : \(impulseCount)"
         impulseTextNode.fontSize = 20
-        impulseTextNode.fontColor = SKColor.white()
+        impulseTextNode.fontColor = SKColor.white
         impulseTextNode.position = CGPoint(x: 10.0, y: size.height - 20)
         impulseTextNode.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.left
         
@@ -180,19 +179,7 @@ class GameScene: SKScene {
             playerNode.physicsBody?.isDynamic = true
             
             coreMotionManager.accelerometerUpdateInterval = 0.3
-            coreMotionManager.startAccelerometerUpdates(to: OperationQueue(), withHandler: {
-                
-                (data: CMAccelerometerData?, error: NSError?) in
-                
-                if let theError = error {
-                    
-                    print("There was an error: \(theError)")
-                }
-                else {
-                    
-                    self.xAxisAcceleration = CGFloat(data!.acceleration.x)
-                }
-            })
+            coreMotionManager.startAccelerometerUpdates()
         }
         
         if impulseCount > 0 {
@@ -226,15 +213,21 @@ class GameScene: SKScene {
     
     override func didSimulatePhysics() {
         
-        playerNode.physicsBody!.velocity = CGVector(dx: xAxisAcceleration * 380.0, dy: playerNode.physicsBody!.velocity.dy)
-        
-        if playerNode.position.x < -(playerNode.size.width / 2) {
+        if coreMotionManager.isAccelerometerActive {
             
-            playerNode.position = CGPoint(x: size.width - playerNode.size.width / 2, y: playerNode.position.y);
-        }
-        else if playerNode.position.x > size.width {
-            
-            playerNode.position = CGPoint(x: playerNode.size.width / 2, y: playerNode.position.y);
+            if let xAxisAcceleration = coreMotionManager.accelerometerData?.acceleration.x {
+                
+                playerNode.physicsBody!.velocity = CGVector(dx: CGFloat(xAxisAcceleration * 380.0), dy: playerNode.physicsBody!.velocity.dy)
+                
+                if playerNode.position.x < -(playerNode.size.width / 2) {
+                    
+                    playerNode.position = CGPoint(x: size.width - playerNode.size.width / 2, y: playerNode.position.y);
+                }
+                else if playerNode.position.x > size.width {
+                    
+                    playerNode.position = CGPoint(x: playerNode.size.width / 2, y: playerNode.position.y);
+                }
+            }
         }
     }
     
@@ -275,7 +268,7 @@ extension GameScene: SKPhysicsContactDelegate {
             playerNode.physicsBody?.contactTestBitMask = 0
             impulseCount = 0
             
-            let colorizeAction = SKAction.colorize(with: UIColor.red(), colorBlendFactor: 1.0, duration: 1)
+            let colorizeAction = SKAction.colorize(with: UIColor.red, colorBlendFactor: 1.0, duration: 1)
             playerNode.run(colorizeAction)
         }
     }
