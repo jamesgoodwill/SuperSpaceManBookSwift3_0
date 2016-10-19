@@ -41,12 +41,12 @@ class GameScene: SKScene {
         
         addChild(backgroundNode)
 
-        backgroundStarsNode.size.width = self.frame.size.width
+        backgroundStarsNode.size.width = frame.size.width
         backgroundStarsNode.anchorPoint = CGPoint(x: 0.5, y: 0.0)
         backgroundStarsNode.position = CGPoint(x: size.width / 2.0, y: 0.0)
         addChild(backgroundStarsNode)
         
-        backgroundPlanetNode.size.width = self.frame.size.width
+        backgroundPlanetNode.size.width = frame.size.width
         backgroundPlanetNode.anchorPoint = CGPoint(x: 0.5, y: 0.0)
         backgroundPlanetNode.position = CGPoint(x: size.width / 2.0, y: 0.0)
         addChild(backgroundPlanetNode)
@@ -222,6 +222,5 @@ extension GameScene: SKPhysicsContactDelegate {
         }
     }
 }
-
 
 
