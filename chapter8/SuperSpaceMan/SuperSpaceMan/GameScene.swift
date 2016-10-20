@@ -79,7 +79,7 @@ class GameScene: SKScene {
         addBlackHolesToForeground()
         addOrbsToForeground()
         
-        let engineExhaustPath = Bundle.main().pathForResource("EngineExhaust", ofType: "sks")
+        let engineExhaustPath = Bundle.main.path(forResource: "EngineExhaust", ofType: "sks")
         engineExhaust = NSKeyedUnarchiver.unarchiveObject(withFile: engineExhaustPath!) as? SKEmitterNode
         engineExhaust?.position = CGPoint(x: 0.0, y: -(playerNode.size.height / 2))
         engineExhaust?.isHidden = true
@@ -88,7 +88,7 @@ class GameScene: SKScene {
         
         scoreTextNode.text = "SCORE : \(score)"
         scoreTextNode.fontSize = 20
-        scoreTextNode.fontColor = SKColor.white()
+        scoreTextNode.fontColor = SKColor.white
         scoreTextNode.position = CGPoint(x: size.width - 10, y: size.height - 20)
         scoreTextNode.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.right
         
@@ -96,7 +96,7 @@ class GameScene: SKScene {
         
         impulseTextNode.text = "IMPULSES : \(impulseCount)"
         impulseTextNode.fontSize = 20
-        impulseTextNode.fontColor = SKColor.white()
+        impulseTextNode.fontColor = SKColor.white
         impulseTextNode.position = CGPoint(x: 10.0, y: size.height - 20)
         impulseTextNode.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.left
         
@@ -106,7 +106,7 @@ class GameScene: SKScene {
         startGameTextNode.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.center
         startGameTextNode.verticalAlignmentMode = SKLabelVerticalAlignmentMode.center
         startGameTextNode.fontSize = 20
-        startGameTextNode.fontColor = SKColor.white()
+        startGameTextNode.fontColor = SKColor.white
         startGameTextNode.position = CGPoint(x: scene!.size.width / 2, y: scene!.size.height / 2)
         addChild(startGameTextNode)
     }
@@ -185,26 +185,14 @@ class GameScene: SKScene {
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         
+        startGameTextNode.removeFromParent()
+        
         if !playerNode.physicsBody!.isDynamic {
-
-            startGameTextNode.removeFromParent()
-
-            playerNode.physicsBody!.isDynamic = true
+            
+            playerNode.physicsBody?.isDynamic = true
             
             coreMotionManager.accelerometerUpdateInterval = 0.3
-            coreMotionManager.startAccelerometerUpdates(to: OperationQueue(), withHandler: {
-                
-                (data: CMAccelerometerData?, error: NSError?) in
-                
-                if let theError = error {
-                    
-                    print("There was an error: \(theError)")
-                }
-                else {
-                    
-                    self.xAxisAcceleration = CGFloat(data!.acceleration.x)
-                }
-            })
+            coreMotionManager.startAccelerometerUpdates()
         }
         
         if impulseCount > 0 {
@@ -323,7 +311,7 @@ extension GameScene: SKPhysicsContactDelegate {
             playerNode.physicsBody?.contactTestBitMask = 0
             impulseCount = 0
             
-            let colorizeAction = SKAction.colorize(with: UIColor.red(), colorBlendFactor: 1.0, duration: 1)
+            let colorizeAction = SKAction.colorize(with: UIColor.red, colorBlendFactor: 1.0, duration: 1)
             playerNode.run(colorizeAction)
         }
     }
