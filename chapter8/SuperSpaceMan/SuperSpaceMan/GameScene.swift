@@ -185,13 +185,11 @@ class GameScene: SKScene {
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         
+        startGameTextNode.removeFromParent()
+        
         if !playerNode.physicsBody!.isDynamic {
-
-            startGameTextNode.removeFromParent()
-
-            playerNode.physicsBody!.isDynamic = true
             
-            coreMotionManager.accelerometerUpdateInterval = 0.3
+            playerNode.physicsBody?.isDynamic = true
             
             if !playerNode.physicsBody!.isDynamic {
                 

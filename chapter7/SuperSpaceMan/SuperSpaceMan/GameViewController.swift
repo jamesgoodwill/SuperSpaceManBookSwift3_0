@@ -3,11 +3,11 @@ import SpriteKit
 class GameViewController: UIViewController {
     
     var scene: GameScene!
-    
+
     override var prefersStatusBarHidden : Bool {
         return true
     }
-    
+
     override func viewDidLoad() {
         
         super.viewDidLoad()

@@ -7,7 +7,7 @@ class GameScene: SKScene {
     var backgroundStarsNode = SKSpriteNode(imageNamed: "Stars")
     var backgroundPlanetNode = SKSpriteNode(imageNamed: "PlanetStart")
     var foregroundNode = SKSpriteNode()
-    var playerNode = SpaceMan(textureAtlas: SKTextureAtlas(named: "sprites.atlas"))
+    var playerNode: SKSpriteNode!
     
     var impulseCount = 4
     let coreMotionManager = CMMotionManager()
@@ -31,7 +31,8 @@ class GameScene: SKScene {
     override init(size: CGSize) {
     
         super.init(size: size)
-        
+        let textureAtlas = SKTextureAtlas(named: "sprites.atlas")
+
         physicsWorld.contactDelegate = self
     
         physicsWorld.gravity = CGVector(dx: 0.0, dy: -5.0);
@@ -59,6 +60,7 @@ class GameScene: SKScene {
         addChild(foregroundNode)
         
         // add the player
+        playerNode = SpaceMan(textureAtlas: textureAtlas)
         playerNode.position = CGPoint(x: size.width / 2.0, y: 220.0)
         
         foregroundNode.addChild(playerNode)
@@ -66,7 +68,7 @@ class GameScene: SKScene {
         addBlackHolesToForeground()
         addOrbsToForeground()
         
-        let engineExhaustPath = Bundle.main().pathForResource("EngineExhaust", ofType: "sks")
+        let engineExhaustPath = Bundle.main.pathForResource("EngineExhaust", ofType: "sks")
         engineExhaust = NSKeyedUnarchiver.unarchiveObject(withFile: engineExhaustPath!) as? SKEmitterNode
         engineExhaust?.position = CGPoint(x: 0.0, y: -(playerNode.size.height / 2))
         engineExhaust?.isHidden = true
@@ -101,7 +103,7 @@ class GameScene: SKScene {
     
     func addOrbsToForeground() {
         
-        let orbPlistPath = Bundle.main().pathForResource("orbs", ofType: "plist")
+        let orbPlistPath = Bundle.main.pathForResource("orbs", ofType: "plist")
         let orbDataDictionary = NSDictionary(contentsOfFile: orbPlistPath!)
         
         if let positionDictionary = orbDataDictionary {
@@ -126,7 +128,7 @@ class GameScene: SKScene {
         let actionSequence = SKAction.sequence([moveLeftAction, moveRightAction])
         let moveAction = SKAction.repeatForever(actionSequence)
         
-        let blackHolePlistPath = Bundle.main().pathForResource("blackholes", ofType: "plist")
+        let blackHolePlistPath = Bundle.main.pathForResource("blackholes", ofType: "plist")
         let blackHoleDataDictionary = NSDictionary(contentsOfFile: blackHolePlistPath!)
         
         if let positionDictionary = blackHoleDataDictionary {
@@ -294,3 +296,6 @@ extension GameScene: SKPhysicsContactDelegate {
         }
     }
 }
+
+
+
