@@ -98,18 +98,14 @@ class GameScene: SKScene {
             playerNode.physicsBody?.isDynamic = true
             
             coreMotionManager.accelerometerUpdateInterval = 0.3
-            coreMotionManager.startAccelerometerUpdates(to: OperationQueue(), withHandler: {
-                (data: CMAccelerometerData?, error: NSError?) in
+            
+            if !playerNode.physicsBody!.isDynamic {
                 
-                if let theError = error {
-                    
-                    print("There was an error: \(theError)")
-                }
-                else {
-                    
-                    self.xAxisAcceleration = CGFloat(data!.acceleration.x)
-                }
-            })
+                playerNode.physicsBody?.isDynamic = true
+                
+                coreMotionManager.accelerometerUpdateInterval = 0.3
+                coreMotionManager.startAccelerometerUpdates()
+            }
         }
         
         if impulseCount > 0 {
@@ -130,13 +126,13 @@ class GameScene: SKScene {
     
     override func didSimulatePhysics() {
         
-        playerNode.physicsBody!.velocity = CGVector(dx: self.xAxisAcceleration * 380.0,dy: playerNode.physicsBody!.velocity.dy)
+        playerNode.physicsBody!.velocity = CGVector(dx: xAxisAcceleration * 380.0,dy: playerNode.physicsBody!.velocity.dy)
         
         if playerNode.position.x < -(playerNode.size.width / 2) {
             
             playerNode.position = CGPoint(x: size.width - playerNode.size.width / 2, y: playerNode.position.y);
         }
-        else if playerNode.position.x > self.size.width {
+        else if playerNode.position.x > size.width {
             
             playerNode.position = CGPoint(x: playerNode.size.width / 2, y: playerNode.position.y);
         }

@@ -43,12 +43,12 @@ class GameScene: SKScene {
         
         addChild(backgroundNode)
         
-        backgroundStarsNode.size.width = self.frame.size.width
+        backgroundStarsNode.size.width = frame.size.width
         backgroundStarsNode.anchorPoint = CGPoint(x: 0.5, y: 0.0)
         backgroundStarsNode.position = CGPoint(x: size.width / 2.0, y: 0.0)
         addChild(backgroundStarsNode)
         
-        backgroundPlanetNode.size.width = self.frame.size.width
+        backgroundPlanetNode.size.width = frame.size.width
         backgroundPlanetNode.anchorPoint = CGPoint(x: 0.5, y: 0.0)
         backgroundPlanetNode.position = CGPoint(x: size.width / 2.0, y: 0.0)
         addChild(backgroundPlanetNode)
@@ -71,7 +71,7 @@ class GameScene: SKScene {
         addBlackHolesToForeground()
         addOrbsToForeground()
         
-        let engineExhaustPath = Bundle.main().pathForResource("EngineExhaust", ofType: "sks")
+        let engineExhaustPath = Bundle.main.path(forResource: "EngineExhaust", ofType: "sks")
         engineExhaust = NSKeyedUnarchiver.unarchiveObject(withFile: engineExhaustPath!) as? SKEmitterNode
         engineExhaust?.position = CGPoint(x: 0.0, y: -(playerNode.size.height / 2))
         
@@ -158,19 +158,14 @@ class GameScene: SKScene {
             playerNode.physicsBody?.isDynamic = true
             
             coreMotionManager.accelerometerUpdateInterval = 0.3
-            coreMotionManager.startAccelerometerUpdates(to: OperationQueue(), withHandler: {
+            
+            if !playerNode.physicsBody!.isDynamic {
                 
-                (data: CMAccelerometerData?, error: NSError?) in
+                playerNode.physicsBody?.isDynamic = true
                 
-                if let theError = error {
-                    
-                    print("There was an error: \(theError)")
-                }
-                else {
-                    
-                    self.xAxisAcceleration = CGFloat(data!.acceleration.x)
-                }
-            })
+                coreMotionManager.accelerometerUpdateInterval = 0.3
+                coreMotionManager.startAccelerometerUpdates()
+            }
         }
         
         if impulseCount > 0 {
@@ -226,7 +221,7 @@ class GameScene: SKScene {
     
     deinit {
         
-        self.coreMotionManager.stopAccelerometerUpdates()
+        coreMotionManager.stopAccelerometerUpdates()
     }
 }
 
@@ -246,7 +241,7 @@ extension GameScene: SKPhysicsContactDelegate {
             playerNode.physicsBody?.contactTestBitMask = 0
             impulseCount = 0
             
-            let colorizeAction = SKAction.colorize(with: UIColor.red(), colorBlendFactor: 1.0, duration: 1)
+            let colorizeAction = SKAction.colorize(with: UIColor.red, colorBlendFactor: 1.0, duration: 1)
             playerNode.run(colorizeAction)
         }
     }
