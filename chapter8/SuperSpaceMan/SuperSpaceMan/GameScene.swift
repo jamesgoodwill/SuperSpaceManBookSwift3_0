@@ -191,13 +191,8 @@ class GameScene: SKScene {
             
             playerNode.physicsBody?.isDynamic = true
             
-            if !playerNode.physicsBody!.isDynamic {
-                
-                playerNode.physicsBody?.isDynamic = true
-                
-                coreMotionManager.accelerometerUpdateInterval = 0.3
-                coreMotionManager.startAccelerometerUpdates()
-            }
+            coreMotionManager.accelerometerUpdateInterval = 0.3
+            coreMotionManager.startAccelerometerUpdates()
         }
         
         if impulseCount > 0 {
