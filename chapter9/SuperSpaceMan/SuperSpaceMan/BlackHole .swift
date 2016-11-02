@@ -20,7 +20,7 @@ class BlackHole: SKSpriteNode {
         
         let rotateAction = SKAction.repeatForever(animateAction)
         
-        super.init(texture: frame0, color: UIColor.clear(), size: frame0.size())
+        super.init(texture: frame0, color: UIColor.clear, size: frame0.size())
         
         physicsBody = SKPhysicsBody(circleOfRadius: size.width / 2)
         physicsBody?.isDynamic = false

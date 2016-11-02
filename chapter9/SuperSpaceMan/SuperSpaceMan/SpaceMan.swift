@@ -10,7 +10,7 @@ class SpaceMan: SKSpriteNode {
     init(textureAtlas: SKTextureAtlas) {
             
         let texture = textureAtlas.textureNamed("Player")
-        super.init(texture: texture, color: UIColor.clear(), size: texture.size())
+        super.init(texture: texture, color: UIColor.clear, size: texture.size())
             
         physicsBody = SKPhysicsBody(circleOfRadius: size.width / 2)
         physicsBody?.isDynamic = false

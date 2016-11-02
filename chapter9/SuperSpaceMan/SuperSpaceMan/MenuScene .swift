@@ -24,7 +24,7 @@ class MenuScene: SKScene {
         gameResultTextNode.verticalAlignmentMode =
             SKLabelVerticalAlignmentMode.center
         gameResultTextNode.fontSize = 20
-        gameResultTextNode.fontColor = SKColor.white()
+        gameResultTextNode.fontColor = SKColor.white
         gameResultTextNode.position =
             CGPoint(x: size.width / 2.0, y: size.height - 200.0)
         addChild(gameResultTextNode)
@@ -36,7 +36,7 @@ class MenuScene: SKScene {
         scoreTextNode.verticalAlignmentMode =
             SKLabelVerticalAlignmentMode.center
         scoreTextNode.fontSize = 20
-        scoreTextNode.fontColor = SKColor.white()
+        scoreTextNode.fontColor = SKColor.white
         scoreTextNode.position = CGPoint(x: size.width / 2.0,
             y: gameResultTextNode.position.y - 40.0)
         addChild(scoreTextNode)
@@ -48,7 +48,7 @@ class MenuScene: SKScene {
         tryAgainTextNodeLine1.verticalAlignmentMode =
             SKLabelVerticalAlignmentMode.center
         tryAgainTextNodeLine1.fontSize = 20
-        tryAgainTextNodeLine1.fontColor = SKColor.white()
+        tryAgainTextNodeLine1.fontColor = SKColor.white
         tryAgainTextNodeLine1.position = CGPoint(x: size.width / 2.0, y: 100.0)
         addChild(tryAgainTextNodeLine1)
         
@@ -59,7 +59,7 @@ class MenuScene: SKScene {
         tryAgainTextNodeLine2.verticalAlignmentMode =
             SKLabelVerticalAlignmentMode.center
         tryAgainTextNodeLine2.fontSize = 20
-        tryAgainTextNodeLine2.fontColor = SKColor.white()
+        tryAgainTextNodeLine2.fontColor = SKColor.white
         tryAgainTextNodeLine2.position = CGPoint(x: size.width / 2.0,
             y: tryAgainTextNodeLine1.position.y - 40.0)
         addChild(tryAgainTextNodeLine2)
