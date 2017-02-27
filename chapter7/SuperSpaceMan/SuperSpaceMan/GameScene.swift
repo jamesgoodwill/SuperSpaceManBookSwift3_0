@@ -177,7 +177,6 @@ class GameScene: SKScene {
         if !playerNode.physicsBody!.isDynamic {
             
             playerNode.physicsBody?.isDynamic = true
-            
             coreMotionManager.accelerometerUpdateInterval = 0.3
             coreMotionManager.startAccelerometerUpdates()
         }
@@ -213,21 +212,20 @@ class GameScene: SKScene {
     
     override func didSimulatePhysics() {
         
-        if coreMotionManager.isAccelerometerActive {
+        if let accelerometerData = coreMotionManager.accelerometerData {
             
-            if let xAxisAcceleration = coreMotionManager.accelerometerData?.acceleration.x {
-                
-                playerNode.physicsBody!.velocity = CGVector(dx: CGFloat(xAxisAcceleration * 380.0), dy: playerNode.physicsBody!.velocity.dy)
-                
-                if playerNode.position.x < -(playerNode.size.width / 2) {
-                    
-                    playerNode.position = CGPoint(x: size.width - playerNode.size.width / 2, y: playerNode.position.y);
-                }
-                else if playerNode.position.x > size.width {
-                    
-                    playerNode.position = CGPoint(x: playerNode.size.width / 2, y: playerNode.position.y);
-                }
-            }
+            playerNode.physicsBody!.velocity =
+                CGVector(dx: CGFloat(accelerometerData.acceleration.x * 380.0),
+                         dy: playerNode.physicsBody!.velocity.dy)
+        }
+        
+        if playerNode.position.x < -(playerNode.size.width / 2) {
+            
+            playerNode.position = CGPoint(x: size.width - playerNode.size.width / 2, y: playerNode.position.y);
+        }
+        else if playerNode.position.x > size.width {
+            
+            playerNode.position = CGPoint(x: playerNode.size.width / 2, y: playerNode.position.y);
         }
     }
     

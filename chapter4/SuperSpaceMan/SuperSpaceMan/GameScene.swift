@@ -9,7 +9,6 @@ class GameScene: SKScene {
     
     var impulseCount = 4
     let coreMotionManager = CMMotionManager()
-    var xAxisAcceleration : CGFloat = 0.0
     
     let CollisionCategoryPlayer      : UInt32 = 0x1 << 1
     let CollisionCategoryPowerUpOrbs : UInt32 = 0x1 << 2
@@ -98,14 +97,7 @@ class GameScene: SKScene {
             playerNode.physicsBody?.isDynamic = true
             
             coreMotionManager.accelerometerUpdateInterval = 0.3
-            
-            if !playerNode.physicsBody!.isDynamic {
-                
-                playerNode.physicsBody?.isDynamic = true
-                
-                coreMotionManager.accelerometerUpdateInterval = 0.3
-                coreMotionManager.startAccelerometerUpdates()
-            }
+            coreMotionManager.startAccelerometerUpdates()
         }
         
         if impulseCount > 0 {
@@ -126,7 +118,12 @@ class GameScene: SKScene {
     
     override func didSimulatePhysics() {
         
-        playerNode.physicsBody!.velocity = CGVector(dx: xAxisAcceleration * 380.0,dy: playerNode.physicsBody!.velocity.dy)
+        if let accelerometerData = coreMotionManager.accelerometerData {
+            
+            playerNode.physicsBody!.velocity =
+                CGVector(dx: CGFloat(accelerometerData.acceleration.x * 380.0),
+                         dy: playerNode.physicsBody!.velocity.dy)
+        }
         
         if playerNode.position.x < -(playerNode.size.width / 2) {
             

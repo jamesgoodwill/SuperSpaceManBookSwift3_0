@@ -11,7 +11,6 @@ class GameScene: SKScene {
     
     var impulseCount = 4
     let coreMotionManager = CMMotionManager()
-    var xAxisAcceleration : CGFloat = 0.0
     
     var engineExhaust : SKEmitterNode?
     
@@ -155,7 +154,6 @@ class GameScene: SKScene {
         if !playerNode.physicsBody!.isDynamic {
             
             playerNode.physicsBody?.isDynamic = true
-            
             coreMotionManager.accelerometerUpdateInterval = 0.3
             coreMotionManager.startAccelerometerUpdates()
         }
@@ -227,7 +225,12 @@ class GameScene: SKScene {
     
     override func didSimulatePhysics() {
         
-        playerNode.physicsBody!.velocity = CGVector(dx: xAxisAcceleration * 380.0, dy: playerNode.physicsBody!.velocity.dy)
+        if let accelerometerData = coreMotionManager.accelerometerData {
+            
+            playerNode.physicsBody!.velocity =
+                CGVector(dx: CGFloat(accelerometerData.acceleration.x * 380.0),
+                         dy: playerNode.physicsBody!.velocity.dy)
+        }
         
         if playerNode.position.x < -(playerNode.size.width / 2) {
             
